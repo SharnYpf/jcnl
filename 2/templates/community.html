@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <style>
+        .map{
+            position: absolute;
+        }
+        .map div{
+            position: absolute;
+            background-color:#ffff00;
+            display: none;
+        }
+        .map:hover > div{
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div  class="map">
+        <img src="{{ community.pic_url }}" />
+
+        {% for building in community.building_set.all %}
+            <div style="left:{{ building.left }}px;top:{{ building.top }}px;">
+                <a href="/building/?id={{ building.id }}">{{ building.name }}</a>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+
+{% endblock %}
+

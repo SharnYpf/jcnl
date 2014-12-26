@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">编辑楼房 - {{ community.name }}</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>楼房名</th>
+                <th>横坐标</th>
+                <th>纵坐标</th>
+                <th>图片</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rs %}
+                <tr>
+                    <td><a href="/admin_house/?bid={{ r.id }}">{{ r.name }}</a></td>
+                    <td>{{ r.left }}</td>
+                    <td>{{ r.top }}</td>
+                    <td><img src="{{ r.pic_url }}" style="max-height: 50px" /></td>
+                    <td>
+                        <a href="/admin_building_del/?id={{ r.id }}" onclick="return confirm('确定要删除？')" class="btn btn-xs btn-danger">删除</a>
+                        <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">修改</a>
+                        <form action="/admin_building_update/" style="display: none" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ r.id }}"  />
+                            楼房名:
+                            <input type="text" name="name" value="{{ r.name }}"  />
+                            <br/>
+                            横坐标:
+                            <input type="text" name="left" value="{{ r.left }}"  />
+                            <br/>
+                            纵坐标:
+                            <input type="text" name="top" value="{{ r.top }}"  />
+                            <br/>
+                            图片:
+                            <input type="file" name="pic"  />
+                            <br/>
+                            <input type="submit" value="提交" />
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">新增</a>
+    <form action="/admin_building_add/" style="display: none" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="cid"  value="{{ community.id }}"/>
+        楼房名:
+        <input type="text" name="name"  />
+        <br/>
+        横坐标:
+        <input type="text" name="left" value="0"  />
+        <br/>
+        纵坐标:
+        <input type="text" name="top" value="0"  />
+        <br/>
+        图片:
+        <input type="file" name="pic"  />
+        <br/>
+        <input type="submit" value="添加" />
+    </form>
+
+    <script>
+        $("#admin_community").addClass('active')
+    </script>
+
+{% endblock %}
+

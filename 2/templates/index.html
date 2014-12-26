@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <style>
+        .map{
+            position: absolute;
+            width: 90%;
+            height: 1200px;
+        }
+        .map div{
+            position: absolute;
+            background-color:#ffff00;
+            display: none;
+        }
+        .map:hover > div{
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+        <div  class="map">
+            <img src="/static/images/index.jpg" />
+
+            {% for community in communitys %}
+                <div style="left:{{ community.left }}px;top:{{ community.top }}px;">
+                    {% if community.link %}
+                        <a href="{{ community.link }}">{{ community.name }}</a>
+                    {% else %}
+                        <a href="/community/?id={{ community.id }}">{{ community.name }}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center;margin-left:-100px;">
+            <h3>欢迎光临 请先登录或申请注册</h3>
+            <img src="/static/images/index.jpg" />
+            <div style="top: 300px;left: 45%;position: fixed;">
+                <p><a href="/loginpage" class="btn btn-primary">用户登陆</a></p>
+                <p><a href="/registerpage" class="btn btn-primary">用户注册</a></p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(".sidebar").hide()
+        </script>
+    {% endif %}
+
+    <script type="text/javascript">
+        $("#goback").hide()
+    </script>
+
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+
+
+
+{% block content %}
+    <h1>委托出租出售</h1>
+
+    {% for r in rs %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ r.title }}</h3>
+            </div>
+            <div class="panel-body">
+                {{ r.content|linebreaksbr }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <script type="text/javascript">
+        $("#wtczcs").addClass('active')
+    </script>
+
+{% endblock %}
+

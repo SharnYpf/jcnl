@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+
+
+
+{% block content %}
+    <h1>便民服务</h1>
+
+    {% for r in rs %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ r.title }}</h3>
+            </div>
+            <div class="panel-body">
+                <a href="{{ r.link }}">
+                    <img src="{{ r.pic_url }}" />
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+    <script type="text/javascript">
+        $("#bmfw").addClass('active')
+    </script>
+
+{% endblock %}
+

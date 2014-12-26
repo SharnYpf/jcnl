@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">编辑房屋 - {{ building.name }}</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>房屋名称</th>
+                <th>横坐标</th>
+                <th>纵坐标</th>
+                <th>价格</th>
+                <th>描述</th>
+                <th>状态</th>
+                <th>图片</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rs %}
+                <tr>
+                    <td>{{ r.name }}</td>
+                    <td>{{ r.left }}</td>
+                    <td>{{ r.top }}</td>
+                    <td>{{ r.price }}</td>
+                    <td>{{ r.description }}</td>
+                    <td>{{ r.show_status }}</td>
+                    <td>
+                        {% for pic in r.pics %}
+                            <a href="/admin_pic_del/?id={{ pic.id }}" onclick="return confirm('确定要删除此图片？')" title="点击删除图片" >
+                                x
+                            </a>
+                            <img src="{{ pic.url }}" style="max-height: 50px" />
+                            &nbsp;
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="/admin_house_del/?id={{ r.id }}" onclick="return confirm('确定要删除？')" class="btn btn-xs btn-danger">删除</a>
+                        <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">修改</a>
+                        <form action="/admin_house_update/" style="display: none" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ r.id }}"  />
+                            名称:
+                            <input type="text" name="name" value="{{ r.name }}"  />
+                            <br/>
+                            横坐标:
+                            <input type="text" name="left" value="{{ r.left }}"  />
+                            <br/>
+                            纵坐标:
+                            <input type="text" name="top" value="{{ r.top }}"  />
+                            <br/>
+                            价格:
+                            <input type="text" name="price" value="{{ r.price }}"  />
+                            <br/>
+                            描述:
+                            <input type="text" name="description" value="{{ r.description }}"  />
+                            <br/>
+                            状态:
+                            <select name="is_sell">
+                                {% if r.is_sell %}
+                                    <option value="1" >出售</option>
+                                    <option value="">出租</option>
+                                {% else %}
+                                    <option value="">出租</option>
+                                    <option value="1" >出售</option>
+                                {% endif %}
+                            </select>
+                            <br/>
+                            图片:
+                            <input type="file" name="pic"  />
+                            <br/>
+                            <input type="submit" value="提交" />
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">新增</a>
+    <form action="/admin_house_add/" style="display: none" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="bid"  value="{{ building.id }}"/>
+        名称:
+        <input type="text" name="name"   />
+        <br/>
+        横坐标:
+        <input type="text" name="left" value="0"  />
+        <br/>
+        纵坐标:
+        <input type="text" name="top" value="0"  />
+        <br/>
+        价格:
+        <input type="text" name="price"   />
+        <br/>
+        描述:
+        <input type="text" name="description"   />
+        <br/>
+        状态:
+        <select name="is_sell">
+            <option value="1" >出售</option>
+            <option value="">出租</option>
+        </select>
+        <br/>
+        图片:
+        <input type="file" name="pic"  />
+        <br/>
+        <input type="submit" value="提交" />
+    </form>
+
+    <script>
+        $("#admin_community").addClass('active')
+    </script>
+
+{% endblock %}
+

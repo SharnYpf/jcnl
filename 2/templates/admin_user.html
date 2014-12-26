@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">用户管理</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>手机号码</th>
+                <th>状态</th>
+                <th>身份</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rs %}
+                <tr>
+                    <td>{{ r.username }}</td>
+                    <td>
+                        {% if r.is_active %}
+                            已激活
+                        {% else %}
+                            未激活
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if r.is_superuser %}
+                            管理员
+                        {% else %}
+                            访客
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/admin_user_active/?id={{ r.id }}" onclick="return confirm('确定要激活?')" class="btn btn-xs btn-primary">激活</a>
+                        <a href="/admin_user_super/?id={{ r.id }}" onclick="return confirm('确定要设为管理员?')" class="btn btn-xs btn-primary">设为管理员</a>
+                        <a href="/admin_user_del/?id={{ r.id }}" onclick="return confirm('确定要删除?')" class="btn btn-xs btn-danger">删除</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <script>
+        $("#admin_user").addClass('active')
+    </script>
+
+{% endblock %}
+

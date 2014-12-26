@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <title>房产信息</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/tablesorter/blue/style.css" rel="stylesheet"/>
+
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.tablesorter.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+
+      {% block head %}
+      {% endblock %}
+
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">首页</a>
+        </div>
+        <div class="navbar-collapse collapse">
+        	<!--
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+      		-->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-2 col-md-1 sidebar" style="display:block;">
+          <ul class="nav nav-sidebar">
+
+
+            <li id="goback"><a href="javascript:history.go(-1);" >&lt;&lt;&lt;</a></li>
+
+
+            {% if request.user.is_superuser %}
+                <li id="admin_community"><a href="/admin_community/">编辑小区</a></li>
+                <li id="admin_zxcj"><a href="/admin_info/?category=zxcj">编辑最新成交</a></li>
+                <li id="admin_xqxxs"><a href="/admin_info/?category=xqxxs">编辑新鲜事</a></li>
+                <li id="admin_bmfw"><a href="/admin_info/?category=bmfw">编辑便民服务</a></li>
+                <!-- <li id="admin_wtczcs"><a href="/admin_info/?category=wtczcs">编辑委托</a></li> -->
+                <li id="admin_user"><a href="/admin_user/">用户管理</a></li>
+                <p></p>
+            {% endif %}
+
+
+            {% if request.user.is_authenticated %}
+                <li id="zxcj"><a href="/zxcj/">最新成交</a></li>
+                <li id="xqxxs"><a href="/xqxxs/">小区新鲜事</a></li>
+                <li id="bmfw"><a href="/bmfw/">便民服务</a></li>
+                <!-- <li id="wtczcs"><a href="/wtczcs/">委托出租出售</a></li> -->
+                <p></p>
+                <li><a href="/logout">退出 {{ request.user.username }}</a></li>
+            {% endif %}
+            
+          </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-2 col-md-11 col-md-offset-1 main">
+          
+          {% block content %}
+          {% endblock %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+        $(".tablesorter").tablesorter({
+            widgets: ['zebra']
+        })
+    </script>
+
+  </body>
+</html>

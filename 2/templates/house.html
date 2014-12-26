@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+    <h1>
+        {{ house.name }}
+        {{ house.price }}
+    </h1>
+
+    <h2>
+        {{ house.description }}
+    </h2>
+
+    <div>
+        {% for pic in house.pics %}
+            <p>
+                <img src="{{ pic.url }}" />
+            </p>
+        {% endfor %}
+
+    </div>
+
+
+{% endblock %}
+

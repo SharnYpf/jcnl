@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <style>
+        .map{
+            position: absolute;
+        }
+        .map div{
+            position: absolute;
+            background-color:#ffff00;
+        }
+        .map:hover > div{
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+
+
+    <div  class="map">
+        <img src="{{ building.pic_url }}" />
+
+
+        {% if houses %}
+
+            {% for house in houses %}
+                <div style="left:{{ house.left }}px;top:{{ house.top }}px;">
+                    <a href="/house/?id={{ house.id }}">
+                        {{ house.name }}
+                        {{ house.price }}
+                    </a>
+                </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div style="left:100px;top:100px;">
+                <a href="/building/?id={{ building.id }}&is_sell" class="btn btn-primary">
+                    出租
+                </a>
+                <a href="/building/?id={{ building.id }}&is_sell=1" class="btn btn-primary">
+                    出售
+                </a>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+{% endblock %}
+

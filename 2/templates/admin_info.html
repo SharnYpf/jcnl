@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 class="sub-header">{{ title }}</h2>
+
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>标题</th>
+                {% if category != 'bmfw' %}
+                    <th>内容</th>
+                {% else %}
+                    <th>图片</th>
+                    <th>链接</th>
+                {% endif %}
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rs %}
+                <tr>
+                    <td>{{ r.title }}</td>
+                    {% if category != 'bmfw' %}
+                        <td>{{ r.content|linebreaksbr }}</td>
+                    {% else %}
+                        <td><img src="{{ r.pic_url }}" style="max-height: 50px" /></td>
+                        <td><a href="{{ r.link }}">{{ r.link }}</a></td>
+                    {% endif %}
+                    <td>
+                        <a href="/admin_info_del/?id={{ r.id }}" onclick="return confirm('确定要删除？')" class="btn btn-xs btn-danger">删除</a>
+                        <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">修改</a>
+                        <form action="/admin_info_update/" style="display: none" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ r.id }}"  />
+
+                            标题:
+                            <input type="text" name="title" value="{{ r.title }}"  />
+                            <br/>
+                            {% if category != 'bmfw' %}
+                                内容:
+                                <textarea name="content">{{ r.content }}</textarea>
+                                <br/>
+                            {% else %}
+                                链接:
+                                <input type="text" name="link" value="{{ r.link }}"  />
+                                <br/>
+                                图片:
+                                <input type="file" name="pic"  />
+                                <br/>
+                            {% endif %}
+                            <input type="submit" value="提交" />
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a style="cursor: pointer" onclick="$(this).next().toggle()" class="btn btn-xs btn-primary">新增</a>
+    <form action="/admin_info_add/" style="display: none" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="category" value="{{ category }}"  />
+        标题:
+        <input type="text" name="title"  />
+        <br/>
+        {% if category != 'bmfw' %}
+            内容:
+            <textarea name="content"></textarea>
+            <br/>
+        {% else %}
+            链接:
+            <input type="text" name="link"   />
+            <br/>
+            图片:
+            <input type="file" name="pic"  />
+            <br/>
+        {% endif %}
+        <input type="submit" value="添加" />
+    </form>
+
+    <script>
+        $("#admin_{{ category }}").addClass('active')
+    </script>
+
+{% endblock %}
+
